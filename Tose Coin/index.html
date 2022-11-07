@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toos Coin</title>
+    
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: "Rubik",sans-serif;
+        }
+
+        body{
+            height: 100%;
+            background: #282828;
+        }
+
+        .container{
+            background-color: #ffffff;
+            width: 400px;
+            padding: 35px;
+            position: absolute;
+            transform: translate(-50%,-50%);
+            top: 50%;
+            left: 50%;
+            box-shadow: 15px 30px 35px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            -webkit-perspective: 300px;
+            perspective: 300px;
+        }
+        .coin{
+            height: 150px;
+            width: 150px;
+            position: relative;
+            margin: 32px auto;
+            -webkit-transform-style: preserve-3d;
+                    transform-style: preserve-3d;
+        }
+        .coin img{
+            width: 145px;
+        }
+        .heads,.tails{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+                    backface-visibility: hidden;
+        }
+        .tails{
+            transform: rotateX(180deg);
+        }
+        @keyframes spin-tails{
+            0%{
+                transform: rotateX(0);
+            }
+            100%{
+                transform: rotateX(1980deg);
+            }
+        }
+        @keyframes spin-heads{
+            0%{
+                transform: rotateX(0);
+            }
+            100%{
+                transform: rotateX(2160deg);
+            }
+        }
+        .stats{
+            display: flex;
+            color: #101020;
+            font-weight: 500;
+            padding: 20px;
+            margin-bottom: 40px;
+            margin-top: 55px;
+            box-shadow: 0 0 20px rgba(0,139,253,0.25);
+        }
+
+        .stats p:nth-last-child(1){
+        margin-left: 50%;
+        }
+        .buttons{
+            display: flex;
+            justify-content: space-between;
+        }
+        button{
+            width: 150px;
+            padding: 15px 0;
+            border: none;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #flip-button{
+            background-color: #053469;
+            color: #ffffff;
+        }
+
+        #reset-button{
+            background-color: #674706;
+            color: white;
+        }
+        #flip-button:disabled{
+        background-color: #e1e0ee;
+        border-color: #e1e0ee;
+        color: #101020;
+         }
+    </style>
+    <style>
+        .navbar-default {
+        background-color: #f8f8f800;
+        border-color: #e7e7e700;
+    }
+    .navbar-default .navbar-nav>li>a {
+    color: #fff;
+    }
+    .navbar-default .navbar-nav>.active>a{
+        color: #fff;
+    background-color: #e7e7e700;
+    }
+    </style>
+</head>
+<body>
+    <!--header-->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <!-- <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Brand</a>
+          </div> -->
+      
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+               
+              <li class="active"><a href="#">Volume<span class="sr-only">(current)</span></a></li>
+              <li><a href="#">Light</a></li>
+              <!-- <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Separated link</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">One more separated link</a></li>
+                </ul>
+              </li> -->
+            </ul>
+            <!-- <form class="navbar-form navbar-left">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search">
+              </div>
+              <button type="submit" class="btn btn-default">Submit</button>
+            </form> -->
+            <ul class="nav navbar-nav navbar-right">
+              
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Recent <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Separated</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Separated</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Separated</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Separated</a></li>
+                  <li role="separator" class="divider"></li>
+
+                </ul>
+              </li>
+              <li><a href="#">Top Streaks</a></li>
+              <li><a href="#">Stats</a></li>
+              <li><a href="#">Live</a></li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
+    <!--header-->
+
+    <div class="container">
+
+
+        <div class="coin" id="coin">
+
+            <div class="heads">
+               <img src="head.png">
+            </div>
+         
+            <div class="tails">
+               <img src="tell.png">
+            </div>
+         
+         </div>
+         
+         <div class="stats">
+            <p id="heads-count">Heads: 0</p>
+            <p id="tails-count">Tails: 0</p>
+        </div>
+
+        <div class="buttons">
+            <button id="flip-button">Flip Coin</button>
+            <button id="reset-button">Reset</button>
+         </div>
+
+         
+    </div>
+
+    <section id="ftr" style="margin-top: 39%; margin-left: 33%;">
+    <div>
+
+        <div class="btn-group" role="group" aria-label="...">
+            <button type="button" class="btn btn-default">FAQ</button>
+            <button type="button" class="btn btn-default">How To Play</button>
+            <button type="button" class="btn btn-default">Flip Responsibly</button>
+        </div>
+
+    </div>
+    </section>
+    
+    
+    <script>
+
+        let coin = document.querySelector(".coin");
+        let flipBtn = document.querySelector("#flip-button");
+        let resetBtn = document.querySelector("#reset-button");
+
+        let heads = 0;
+        let tails = 0;
+
+        flipBtn.addEventListener("click", () => {
+        let i = Math.floor(Math.random() * 2);
+        coin.style.animation = "none";
+        if(i){
+            setTimeout(function(){
+                coin.style.animation = "spin-heads 3s forwards";
+            }, 100);
+            heads++;
+        }
+        else{
+            setTimeout(function(){
+                coin.style.animation = "spin-tails 3s forwards";
+            }, 100);
+            tails++;
+        }
+        setTimeout(updateStats, 3000);
+        disableButton();
+    });
+
+    function updateStats(){
+    document.querySelector("#heads-count").textContent = `Heads: ${heads}`;
+    document.querySelector("#tails-count").textContent = `Tails: ${tails}`;
+    }
+
+    function disableButton(){
+    flipBtn.disabled = true;
+    setTimeout(function(){
+        flipBtn.disabled = false;
+    },3000);
+    }
+
+    resetBtn.addEventListener("click",() => {
+    coin.style.animation = "none";
+    heads = 0;
+    tails = 0;
+    updateStats();
+    });
+    </script>
+
+</body>
+</html>
